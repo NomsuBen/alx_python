@@ -1,11 +1,7 @@
+import decimal
+
 def pow(a, b):
-    result = 1
-    if b < 0:
-        a = 1 / a
-        b = -b
-    while b > 0:
-        if b % 2 == 1:
-            result *= a
-        a *= a
-        b //= 2
-    return result
+    decimal_a = decimal.Decimal(str(a))
+    decimal_b = decimal.Decimal(str(b))
+    result = decimal_a ** decimal_b
+    return float(result)
