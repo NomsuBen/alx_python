@@ -5,7 +5,8 @@ def main():
     module = importlib.import_module(module_name)
 
     if hasattr(module, "a"):
-        print(f"The value of 'a' is: {module.a}")
+        a_value = getattr(module, "a")
+        print(f"The value of 'a' is: {a_value}")
     else:
         print("Variable 'a' not found in the imported module.")
 
