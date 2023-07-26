@@ -9,18 +9,20 @@ def safe_print_division(a, b):
         return None
     else:
         print("Inside result: {}".format(result))
+        print("{} / {} = {}".format(a, b, result))
         return result
     finally:
         print("Finally: Division operation completed.")
 
-safe_print_division = __import__('3-safe_print_division').safe_print_division
-
-a = 12
+# Test the function
+a = 10
 b = 2
-result = safe_print_division(a, b)
-print("{:d} / {:d} = {}".format(a, b, result))
+safe_print_division(a, b)
 
-a = 12
-b = 0
-result = safe_print_division(a, b)
-print("{:d} / {:d} = {}".format(a, b, result))
+c = 12
+d = 0
+safe_print_division(c, d)
+
+e = "invalid"
+f = 2
+safe_print_division(e, f)
