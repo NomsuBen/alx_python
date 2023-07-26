@@ -13,15 +13,14 @@ def safe_print_division(a, b):
     finally:
         print("Finally: Division operation completed.")
 
-# Test the function
-a = 10
+safe_print_division = __import__('3-safe_print_division').safe_print_division
+
+a = 12
 b = 2
-safe_print_division(a, b)
+result = safe_print_division(a, b)
+print("{:d} / {:d} = {}".format(a, b, result))
 
-c = 5
-d = 0
-safe_print_division(c, d)
-
-e = "invalid"
-f = 2
-safe_print_division(e, f)
+a = 12
+b = 0
+result = safe_print_division(a, b)
+print("{:d} / {:d} = {}".format(a, b, result))
