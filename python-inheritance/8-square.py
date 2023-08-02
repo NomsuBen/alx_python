@@ -3,8 +3,8 @@
 Creates a Square class.
 """
 
+from typing import Any
 
-from typing import Any, Type
 Rectangle = __import__('7-rectangle').Rectangle
 
 
