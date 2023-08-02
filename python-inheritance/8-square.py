@@ -4,18 +4,22 @@ Creates a Square class.
 """
 
 
+from typing import Any, Type
 Rectangle = __import__('7-rectangle').Rectangle
 
 
 class Square(Rectangle):
-    """class Square that inherits from Rectangle (9-rectangle.py)
+    """
+    Class Square that inherits from Rectangle (9-rectangle.py)
     Private instance attribute size.
     Public method area().
     Inherits from Rectangle.
     """
 
-    def __init__(self, size):
-        """Initializes a Square.
+    def __init__(self, size: int) -> None:
+        """
+        Initializes a Square.
+
         Args:
             - size: size of the square
         """
@@ -24,11 +28,12 @@ class Square(Rectangle):
         super().__init__(size, size)
         self.__size = size
 
-    def __str__(self):
+    def __str__(self) -> str:
         return super().__str__()
 
-    def area(self):
-        """Computes the area of a Square instance.
+    def area(self) -> int:
+        """
+        Computes the area of a Square instance.
         Overwrites the area() method from Rectangle.
         """
 
