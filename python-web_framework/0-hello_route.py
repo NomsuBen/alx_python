@@ -1,3 +1,4 @@
+#! usr/bin/python3
 '''
     script that starts a Flask web application
 '''
@@ -12,8 +13,8 @@ from the Flask.
 app = Flask(__name__)
 
 @app.route("/")
-def home():
+def index():
     return "Hello HBNB!"
 
-if __name__ == "__0-hello_route__":
-    app.run(strict_slashes=False, port="5000")
+if __name__ == "__main__":
+    app.run(port="5000")
