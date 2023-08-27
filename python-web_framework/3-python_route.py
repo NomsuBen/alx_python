@@ -33,14 +33,14 @@ def super():
     return "C is super fun"
 
 
-@app.route("/python/is_magic")
+@app.route("/python/test")
 def magic():
-    return "Python is magic"
+    return "Python test"
 
 
-@app.route("/python")
+@app.route("/python/this_is_a_test")
 def python():
-    return "Python is cool"
+    return "Python this is a test"
 
 
 @app.route("/python/")
