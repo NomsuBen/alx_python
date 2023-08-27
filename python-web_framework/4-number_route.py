@@ -48,5 +48,9 @@ def pythonc():
     return "Python is cool"
 
 
+app.route("/number/89")
+def number():
+    return "89 is a number"
+
 if __name__ == "__main__":
     app.run(port="5000")
