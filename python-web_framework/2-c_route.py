@@ -23,14 +23,14 @@ def hbnb():
     return "HBNB"
 
 
-@app.route("/c/is_fun")
-def is_fun():
-    return "C is fun"
+@app.route("/c/julien")
+def julien():
+    return "C julien"
 
 
-@app.route("/c/cool")
-def cool():
-    return "C cool"
+@app.route("/c/is_super_fun")
+def super():
+    return "C is super fun"
 
 if __name__ == "__main__":
     app.run(port="5000")
