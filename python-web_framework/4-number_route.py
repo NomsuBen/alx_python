@@ -48,7 +48,7 @@ def pythonc():
     return "Python is cool"
 
 
-app.route("/number/333")
+@app.route("/number/333")
 
 
 def numberc():
