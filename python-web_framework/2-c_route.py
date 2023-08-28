@@ -23,14 +23,10 @@ def hbnb():
     return "HBNB"
 
 
-@app.route("/c/julien")
-def julien():
-    return "C julien"
-
-
-@app.route("/c/is_super_fun")
-def super():
-    return "C is super fun"
+@app.route("/c/<text>", strict_slashes=False)
+def c_text():
+    text = text.replace("_", "")
+    return "C " + text
 
 if __name__ == "__main__":
     app.run(port="5000")
