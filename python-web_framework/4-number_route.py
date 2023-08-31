@@ -54,5 +54,8 @@ def pythonc():
 def numberc():
     return "333 is a number"
 
+
+@app.route("/number_template/89")
+
 if __name__ == "__main__":
     app.run(port="5000")
