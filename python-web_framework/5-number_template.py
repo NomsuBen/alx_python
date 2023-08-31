@@ -23,36 +23,26 @@ def hbnb():
     return "HBNB"
 
 
-@app.route("/c/julien")
-def julien():
-    return "C julien"
+@app.route("/c/<text>", strict_slashes=False)
+def super(text):
+    return("C {}".format(text.replace("_", " ")))
 
 
-@app.route("/c/is_super_fun")
-def super():
-    return "C is super fun"
+@app.route("/python/", defaults={'text': 'is cool'}, strict_slashes=False)
+@app.route("/python/<text>", strict_slashes=False)
+def magic(text):
+    return ("Python {}".format(text.replace("_", " ")))
 
 
-@app.route("/python/test")
-def magic():
-    return "Python test"
+@app.route("/number/<int:n>", strict_slashes=False)
+def pythonc(n):
+    return("{} is a number" .format(n))
 
 
-@app.route("/python/this_is_a_test")
-def python():
-    return "Python this is a test"
+@app.route("/number_template/<int:n>", strict_slashes=False)
+def loading_html(n):
+    return (render_template('5-number.html', number=n))
 
-
-@app.route("/python/")
-def pythonc():
-    return "Python is cool"
-
-
-@app.route("/number/333")
-
-
-def numberc():
-    return "333 is a number"
 
 if __name__ == "__main__":
     app.run(port="5000")
