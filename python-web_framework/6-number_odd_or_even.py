@@ -39,5 +39,15 @@ def pythonc(n):
     return("{} is a number" .format(n))
 
 
+@app.route("/number_template/<int:n>", strict_slashes=False)
+def loading_html(n):
+    return (render_template('5-number.html', number=n))
+
+
+@app.route("/number_odd_eve/<int:n>", strict=slashes=False)
+def even_odd(n):
+    return (render_template('6-number_odd_oreven.html', number=n))
+
+
 if __name__ == "__main__":
     app.run(port="5000")
