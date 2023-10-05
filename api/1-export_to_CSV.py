@@ -7,36 +7,39 @@ import csv
 import requests
 import sys
 
-# Assuming todos_url is defined somewhere in your code
-todos_url = "https://jsonplaceholder.typicode.com/todos"
 
-def fetch_employee_info(employee_id):
-    """ Fetch employee information and TODO list progress """
-    user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
+def export_to_CSV(user_id):
+    employee_name = requests.get(
+        "https://jsonplaceholder.typicode.com/users/{}".format(user_id)
+    ).json()["name"]
+    tasks = requests.get(
+        "https://jsonplaceholder.typicode.com/users/{}/todos".format(user_id)
+    ).json()
 
-    user_info = requests.get(user_url).json()
+    tasks_data = []
 
-    return user_info
+    for task in tasks:
+        tasks_data.append(
+            [
+                str(user_id),
+                employee_name,
+                task["completed"],
+                task["title"],
+            ]
+        )
 
-def export_to_csv(user_id, user_name, todos):
-    """ Export TODOs to CSV """
-    filename = f"{user_id}.csv"
-    with open(filename, mode='w', newline='') as file:
-        writer = csv.writer(file)
-        writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
-        for todo in todos:
-            writer.writerow([user_id, user_name, str(todo['completed']), todo['title']])
+    with open(str(user_id) + ".csv", "w", encoding="UTF8", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerows(tasks_data)
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python script.py <employee_id>")
+        print("Usage: python3 script_name.py EMPLOYEE_ID")
         sys.exit(1)
 
-    employee_id = int(sys.argv[1])
-
-    user_info = fetch_employee_info(employee_id)
-
-    user_id = user_info['id']
-    user_name = user_info['username']
-
-    print(f"User ID: {user_id}, Username: {user_name}")
+    try:
+        employee_id = int(sys.argv[1])
+        export_to_CSV(employee_id)
+    except ValueError:
+        print("Please provide a valid employee ID.")
