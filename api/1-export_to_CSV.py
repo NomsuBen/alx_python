@@ -20,4 +20,4 @@ filename = "{}.csv".format(user_id)
 with open(filename, 'w', newline='') as file:
     writter = csv.writer(file, quoting = csv.QUOTE_ALL)
     for task in todo_data:
-        writter.writerow([user_id, "USER_ID","USERNAME","TASK_COMPLETED_STATUS","TASK_TITLE"])
+        writter.writerow([user_id, str(user_data['username']),task['completed'], task['title']])
