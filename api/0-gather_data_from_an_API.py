@@ -1,38 +1,35 @@
-import requests
 import sys
+import requests
 
 
-def get_todo_progress(employee_id):
-    # Get employee details
-    user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
-    user_response = requests.get(user_url)
-    user_data = user_response.json()
-    employee_name = user_data["name"]
+def get_employee_info(employee_id):
+    # Retrieve employee details
+    url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
+    response = requests.get(url)
+    employee_data = response.json()
+    employee_name = employee_data["name"]
 
-    # Get TODO list for the employee
-    todos_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}/todos"
-    todos_response = requests.get(todos_url)
-    todos_data = todos_response.json()
+    # Retrieve TODO list for the employee
+    url = f"https://jsonplaceholder.typicode.com/users/{employee_id}/todos"
+    response = requests.get(url)
+    todos = response.json()
 
-    # Count completed tasks and total tasks
-    completed_tasks = [task for task in todos_data if task["completed"]]
-    total_tasks = len(todos_data)
-    num_completed_tasks = len(completed_tasks)
+    # Calculate TODO list progress
+    total_tasks = len(todos)
+    done_tasks = sum(1 for todo in todos if todo["completed"])
 
-    # Print the result
+    # Display employee TODO list progress
     print(
-        f"Employee {employee_name} is done with tasks({num_completed_tasks}/{total_tasks}):")
-    for task in completed_tasks:
-        print(f"\t {task['title']}")
+        f"Employee {employee_name} is done with tasks({done_tasks}/{total_tasks}):")
+    for todo in todos:
+        if todo["completed"]:
+            print(f"\t{todo['title']}")
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python3 script_name.py EMPLOYEE_ID")
+        print("Usage: python3 gather_data_from_an_API.py [employee_id]")
         sys.exit(1)
 
-    try:
-        employee_id = int(sys.argv[1])
-        get_todo_progress(employee_id)
-    except ValueError:
-        print("Please provide a valid employee ID.")
+    employee_id = int(sys.argv[1])
+    get_employee_info(employee_id)
