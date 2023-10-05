@@ -4,6 +4,7 @@ Python script to export data in the CSV format.
 """
 
 import csv
+import os  # Import the os module for checking file existence
 import requests
 import sys
 
@@ -30,11 +31,20 @@ def get_todo_progress(employee_id):
 
     # Export data to CSV
     csv_filename = f"{employee_id}.csv"
-    with open(csv_filename, mode='w', newline='') as csv_file:
-        writer = csv.writer(csv_file)
-        writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+
+    # Check if the file exists before attempting to open it
+    if not os.path.isfile(csv_filename):
+        with open(csv_filename, mode='w', newline='') as csv_file:
+            writer = csv.writer(csv_file)
+            writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+    else:
+        # File already exists, do not overwrite the header
+        with open(csv_filename, mode='a', newline='') as csv_file:
+            writer = csv.writer(csv_file)
+
+        # Write completed tasks to the CSV file
         for task in completed_tasks:
-            writer.writerow([employee_id, employee_username, "Completed", task['title']])
+            writer.writerow([employee_id, employee_username, "Completed", task['title'])
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
