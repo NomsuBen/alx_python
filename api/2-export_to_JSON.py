@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """
-Python script to export data in the CSV format.
+Python script to export data to a JSON file.
 """
 
-import csv
+import json
 import requests
 import sys
 
@@ -11,35 +11,25 @@ import sys
 def export_to_CSV(user_id):
     employee_name = requests.get(
         "https://jsonplaceholder.typicode.com/users/{}".format(user_id)
-    ).json()["name"]
+    ).json()["username"]
     tasks = requests.get(
         "https://jsonplaceholder.typicode.com/users/{}/todos".format(user_id)
     ).json()
 
-    tasks_data = []
+    tasks_data = {str(user_id): []}
 
     for task in tasks:
-        tasks_data.append(
-            [
-                str(user_id),
-                employee_name,
-                task["completed"],
-                task["title"],
-            ]
+        tasks_data[str(user_id)].append(
+            {
+                "task": task["title"],
+                "completed": task["completed"],
+                "username": employee_name,
+            }
         )
 
-    with open(str(user_id) + ".csv", "w", encoding="UTF8", newline="") as f:
-        writer = csv.writer(f)
-        writer.writerows(tasks_data)
+    with open(str(user_id) + ".json", "w", encoding="UTF8", newline="") as f:
+        json.dump(tasks_data, f)
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python3 script_name.py EMPLOYEE_ID")
-        sys.exit(1)
-
-    try:
-        employee_id = int(sys.argv[1])
-        export_to_CSV(employee_id)
-    except ValueError:
-        print("Please provide a valid employee ID.")
+    export_to_CSV(sys.argv[1])
