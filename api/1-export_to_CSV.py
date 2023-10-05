@@ -34,7 +34,7 @@ def get_todo_progress(employee_id):
         writer = csv.writer(csv_file)
         writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
         for task in completed_tasks:
-            writer.writerow([employee_id, employee_username, "Completed", task['title'])
+            writer.writerow([employee_id, employee_username, "Completed", task['title']])
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
