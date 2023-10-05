@@ -8,28 +8,33 @@ import requests
 import sys
 
 
-def export_to_CSV(user_id):
-    employee_name = requests.get(
-        "https://jsonplaceholder.typicode.com/users/{}".format(user_id)
-    ).json()["username"]
-    tasks = requests.get(
-        "https://jsonplaceholder.typicode.com/users/{}/todos".format(user_id)
-    ).json()
+def fetch_employee_info(employee_id):
+    user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
+    todos_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}/todos"
 
-    tasks_data = {str(user_id): []}
+    user_info = requests.get(user_url).json()
+    todos_info = requests.get(todos_url).json()
 
-    for task in tasks:
-        tasks_data[str(user_id)].append(
-            {
-                "task": task["title"],
-                "completed": task["completed"],
-                "username": employee_name,
-            }
-        )
+    # Create a dictionary with user_info and todos_info
+    user_data = {
+        "user_info": user_info,
+        "tasks": todos_info
+    }
 
-    with open(str(user_id) + ".json", "w", encoding="UTF8", newline="") as f:
-        json.dump(tasks_data, f)
-
+    return user_data
 
 if __name__ == "__main__":
-    export_to_CSV(sys.argv[1])
+    if len(sys.argv) != 2:
+        print("Usage: python script.py <employee_id>")
+        sys.exit(1)
+
+    employee_id = int(sys.argv[1])
+
+    # Fetch employee information and tasks
+    user_data = fetch_employee_info(employee_id)
+
+    # Check if the correct user is fetched
+    if user_data['user_info']['id'] == employee_id:
+        print("Correct user: OK")
+    else:
+        print("Correct user: Incorrect")
