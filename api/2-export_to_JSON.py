@@ -8,33 +8,50 @@ import requests
 import sys
 
 
-def fetch_employee_info(employee_id):
-    user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
-    todos_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}/todos"
+def data_to_json(user_id):
+    """
+    Fetches the employee's details and TODO list using the
+    provided API endpoints,
+    exports the informationto a JSON file.
 
-    user_info = requests.get(user_url).json()
-    todos_info = requests.get(todos_url).json()
+    data_to_json(-1)
+    Traceback (most recent call last):
+    
+    ValueError: n must be = 0
+    
+    Parameters:
+    - employee_id (int): The ID of the employee.
 
-    # Create a dictionary with user_info and todos_info
-    user_data = {
-        "user_info": user_info,
-        "tasks": todos_info
+    Returns:
+    None
+    """
+    # format url with input from user
+    user_url = 'https://jsonplaceholder.typicode.com/users/{}'\
+    .format(user_id)
+    todo_url = 'https://jsonplaceholder.typicode.com/users/{}/todos'\
+    .format(user_id)
+
+    # request data frm todo and user api
+    user_data = requests.get(user_url).json()
+    todo_data = requests.get(todo_url).json()
+
+    # creat a json data from the todo and user object
+    json_data = {
+        user_id : [ {
+                "task":task['title'], "completed":task['completed'],
+                "username":user_data['username'],
+            }
+            for task in todo_data
+        ]
     }
 
-    return user_data
+    # Write to JSON file name filename
+    filename = f"{user_id}.json"
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python script.py <employee_id>")
-        sys.exit(1)
+    # open the file and overwrite it content with w
+    with open(filename, 'w') as file:
+        json.dump(json_data, file, indent=2)
 
-    employee_id = int(sys.argv[1])
-
-    # Fetch employee information and tasks
-    user_data = fetch_employee_info(employee_id)
-
-    # Check if the correct user is fetched
-    if user_data['user_info']['id'] == employee_id:
-        print("Correct user: OK")
-    else:
-        print("Correct user: Incorrect")
+# function call
+if __name__=='__main__':
+    data_to_json(sys.argv[1])
