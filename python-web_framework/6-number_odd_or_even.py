@@ -1,53 +1,53 @@
-#! usr/bin/python3
+#! usr\bin\python3
+
 '''
-    script that starts a Flask web application
+  Write a script that starts a Flask web application:
 '''
 
 from flask import Flask, render_template
 
-"""
-Access to the flask and get
-from the Flask.
-"""
+'''
+  Flask imported
+'''
 
 app = Flask(__name__)
 
 
 @app.route("/")
-def index():
-    return "Hello HBNB!"
+def home():
+  return "Hello HBNB!"
 
 
 @app.route("/hbnb")
 def hbnb():
-    return "HBNB"
+  return "HBNB"
 
 
-@app.route("/c/<text>", strict_slashes=False)
-def super(text):
-    return("C {}".format(text.replace("_", " ")))
+@app.route("/c/<text>")
+def c(text):
+  return("C {}".format(text.replace("_", " ")))
+
+@app.route("/python/", defaults={"text": "is cool"})
+@app.route("/python/<text>")
+def python(text):
+  return("Python {}".format(text.replace("_", " ")))
 
 
-@app.route("/python/", defaults={'text': 'is cool'}, strict_slashes=False)
-@app.route("/python/<text>", strict_slashes=False)
-def magic(text):
-    return ("Python {}".format(text.replace("_", " ")))
-
-
-@app.route("/number/<int:n>", strict_slashes=False)
-def pythonc(n):
-    return("{} is a number" .format(n))
+@app.route("/number/<int:n>")
+def number(n):
+  return("{} is a number" .format(n))
 
 
 @app.route("/number_template/<int:n>", strict_slashes=False)
-def loading_html(n):
-    return (render_template('5-number.html', number=n))
+def template(n):
+  return render_template('5-number.html', number=n)
 
 
 @app.route("/number_odd_or_even/<int:n>", strict_slashes=False)
-def even_odd(n):
+def odd_even(n):
     return (render_template('6-number_odd_or_even.html', number=n))
+  
 
 
-if __name__ == "__main__":
-    app.run(port="5000")
+if __name__=="__main__":
+  app.run(debug=True, port="5000")
